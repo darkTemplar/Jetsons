@@ -1,3 +1,5 @@
+import numpy as np
+
 
 class Node:
     def __init__(self, inbound_nodes=[]):
@@ -34,6 +36,22 @@ class Add(Node):
 
     def forward(self):
         self.value = sum([n.value for n in self.inbound_nodes])
+
+
+class Linear(Node):
+    def __init__(self, features, weights, bias):
+        """
+
+        :param features: np array
+        :param weights: np array
+        :param bias: float
+        :return:
+        """
+        Node.__init__(self, [features, weights, bias])
+
+    def forward(self):
+        features, weights, bias = self.inbound_nodes
+        self.value = np.dot(features.value, weights.value) + bias.value
 
 
 #### Utility methods #####
