@@ -1,9 +1,5 @@
 #**Traffic Sign Recognition** 
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Build a Traffic Sign Recognition Project**
@@ -32,10 +28,6 @@ The goals / steps of this project are the following:
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
-
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
 You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
 
 ###Data Set Summary & Exploration
@@ -44,19 +36,19 @@ You're reading it! and here is a link to my [project code](https://github.com/ud
 
 The code for this step is contained in the second code cell of the IPython notebook.  
 
-I used the pandas library to calculate summary statistics of the traffic
+I used the numpy library to calculate summary statistics of the traffic
 signs data set:
 
-* The size of training set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+* The size of training set is 34799
+* The size of test set is 12630
+* The shape of a traffic sign image is (32, 32, 3)
+* The number of unique classes/labels in the data set is 43
 
 ####2. Include an exploratory visualization of the dataset and identify where the code is in your code file.
 
 The code for this step is contained in the third code cell of the IPython notebook.  
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Here is an exploratory visualization of the data set. It is a bar chart showing the distribution of data by various class labels. This clearly shows that the training samples are unevenly distributed among the 43 classes which could mean the NN could be inadequately trained to identify those classes.
 
 ![alt text][image1]
 
@@ -64,31 +56,30 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 
 ####1. Describe how, and identify where in your code, you preprocessed the image data. What tecniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc.
 
-The code for this step is contained in the fourth code cell of the IPython notebook.
+Data Preprocessing - The code for this step is contained in the fourth code cell of the IPython notebook. 
 
-As a first step, I decided to convert the images to grayscale because ...
+As a first step, I decided to convert the images to grayscale because color did not seem to play a huge role in determining what most of the signs meant and hence simplying the input space would possibly make it easier to train NN models. 
 
-Here is an example of a traffic sign image before and after grayscaling.
+Secondly, we centered data around mean. Did not divide by std. deviation as image values are anyway within a given range so re-scaling probably not necessary.
+
+Here is an example of a traffic sign image before and after preprocessing.
 
 ![alt text][image2]
 
-As a last step, I normalized the image data because ...
 
 ####2. Describe how, and identify where in your code, you set up training, validation and testing data. How much data was in each set? Explain what techniques were used to split the data into these sets. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, identify where in your code, and provide example images of the additional data)
 
-The code for splitting the data into training and validation sets is contained in the fifth code cell of the IPython notebook.  
+I was already provided with different data sets for training, validating and testing. So there was no explicit need to split them up.  
 
-To cross validate my model, I randomly split the training data into a training set and validation set. I did this by ...
+My training set had 34799 number of images. My validation set and test set had Y and 12630 number of images.
 
-My final training set had X number of images. My validation set and test set had Y and Z number of images.
-
-The sixth code cell of the IPython notebook contains the code for augmenting the data set. I decided to generate additional data because ... To add more data to the the data set, I used the following techniques because ... 
+The 4th cell in the notebook also code for augmenting the data set. I took 4 passes through the data set and decided via a simulated coin flip if I were to apply small amounts of translation, rotation and scaling to a given image. Used open cv3 to perform the above operations. 
 
 Here is an example of an original image and an augmented image:
 
 ![alt text][image3]
 
-The difference between the original data set and the augmented data set is the following ... 
+This ended up giving us a training set size of ~150k images. So now would be a good time to do another frequency distribution across labels of the dataset. We observe that.. 
 
 
 ####3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
