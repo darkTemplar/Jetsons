@@ -15,14 +15,15 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./data/data_analysis/original_label_frequency_distribution.png
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image1]: ./data/data_analysis/original_label_frequency_distribution.png "Original label frequency distribution"
+[image2]: ./data/data_analysis/original_training_image.png "Original Image"
+[image3]: ./data/data_analysis/preprocessed_image.png "Pre Processed Image"
+[image4]: ./data/data_analysis/augmented_label_frequency_distribution.png "Augmented label frequency distribution"
+[image5]: ./data/web_traffic_images/ "Traffic Sign 1"
+[image6]: ./data/web_traffic_images/ "Traffic Sign 2"
+[image7]: ./data/web_traffic_images/ "Traffic Sign 3"
+[image8]: ./data/web_traffic_images/ "Traffic Sign 4"
+[image9]: ./data/web_traffic_images/ "Traffic Sign 5"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -66,7 +67,9 @@ Secondly, we centered data around mean. Did not divide by std. deviation as imag
 
 Here is an example of a traffic sign image before and after preprocessing.
 
-![alt text][image2]
+![Original Image][image2]
+
+![Pre Processed Image][image3]
 
 
 ####2. Describe how, and identify where in your code, you set up training, validation and testing data. How much data was in each set? Explain what techniques were used to split the data into these sets. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, identify where in your code, and provide example images of the additional data)
@@ -75,13 +78,12 @@ I was already provided with different data sets for training, validating and tes
 
 My training set had 34799 number of images. My validation set and test set had Y and 12630 number of images.
 
-The 4th cell in the notebook also code for augmenting the data set. I took 4 passes through the data set and decided via a simulated coin flip if I were to apply small amounts of translation, rotation and scaling to a given image. Used open cv3 to perform the above operations. 
+The 4th cell in the notebook also code for augmenting the data set. I took 4 passes through the data set and decided via a simulated coin flip if I were to apply small amounts of translation, rotation and scaling to a given image. Used open cv3 to perform the above operations. We noted earlier that some labels were under represented i.e. had fewer than 500 training examples. For such labels we ignored the coin flip rule and just went ahead and added random peturbations (translation, rotation and scaling) so that we could have more training examples for such labels.
 
-Here is an example of an original image and an augmented image:
 
-![alt text][image3]
+This ended up giving us a training set size of ~150k images. So now would be a good time to do another frequency distribution across labels of the dataset. We observe that now the dataset has no labels with less than 500 training examples. 
 
-This ended up giving us a training set size of ~150k images. So now would be a good time to do another frequency distribution across labels of the dataset. We observe that.. 
+![Augmented Label Frequency Distribution][image4]
 
 
 ####3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
