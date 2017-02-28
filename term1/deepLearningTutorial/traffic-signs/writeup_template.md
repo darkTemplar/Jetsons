@@ -101,9 +101,9 @@ My final model consisted of the following layers:
 | Convolution 5x5	    | 1x1 stride, valid padding, outputs 10x10x64  |
 | RELU		|        									|
 | Max pooling	      	| 2x2 stride, same padding, outputs 5x5x64				|
-|	Fully Connected					|		inputs 1600, outputs 400										|
-|	Fully Connected					|		inputs 400, outputs 200										|
-|	Output					|		inputs 200, outputs 43									|
+|	Fully Connected					|		inputs 1600, outputs 200										|
+|	Fully Connected					|		inputs 200, outputs 100										|
+|	Output					|		inputs 100, outputs 43									|
  
 
 
@@ -121,8 +121,8 @@ The code for calculating the accuracy of the model is located in the ninth cell 
 
 My final model results were:
 * training set accuracy of ~99%
-* validation set accuracy of ~96-97%
-* test set accuracy of 
+* validation set accuracy of ~95-96%
+* test set accuracy of 94.4%
 
 I tried an iterative approach to building out the network:
 * The first archhitecture that I tried was the Le Net-5 architecture (originally used for identifying MNIST dataset)
@@ -153,28 +153,29 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Keep Right      		| Stop sign   									| 
-| Road Work     			| U-turn 										|
-| Bumpy Road					| Yield											|
-| 60 km/h	      		| Bumpy Road					 				|
-| No Entry			| Slippery Road      							|
+| Keep Right      		| Keep Right   									| 
+| Road Work     			| Road Work 										|
+| Bumpy Road					| No passing									|
+| 60 km/h	      		| 20 km/h				 				|
+| No Entry			| End of speed and passing limits |
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 2 of the 5 traffic signs, which gives an accuracy of 40%. Given the test accuracy was decent at 94.4%, I expected this to be better. Doing a deeper dive on the actual predictions.
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction and identify where in your code softmax probabilities were outputted. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+The model was very confident in predicting the Keep right and Road work signs (softmax probabilities for those classes were almost 1). These were signs with the least amount of disruption in the actual images.
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+the 60 km/hr speed limit was correctly classified as a speed limit but looks like the model had difficulty in categorizing text in the images (the top 3 predictions were 20km/hr (69%), 30 km/hr(15%) and 80 km/hr(14%). So that's definitely something to look at. I would hazard maybe because as I can see in the image visualizations, the images seem heavily pixaleted and makes me think if that's the reason the model struggles with text.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+Again for the no entry sign, the model ended up predicting the End of speed and passing limits (had to look that one up on the web). This image was more challenging because the perspective here is different than in most training images in that the image is facing sideways. The model does not do too bad a job because the label it chooses actually looks similar to the no entry sign. The differences are in the color of the sign and that the line across the sign is at an angle (as opposed to horizontal in the no entry sign). So perhaps need to revisit the decision to switch to grayscale during pre processing.
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+Finally for Bumpy road prediction, model predicts a no passing sign (80%), slippery road(19%). Once again slippery road signs are not too dissimilar from the bumpy road sign s(based on my 1 min of googling). However this image also had the maximum amount of fuzzy info around it (text below the sign and also trees in the background). Once again the abscence of color information and the weakness of the model when it comes to categorizing text (as we discussed earlier when discussing the speed limit sign) probably causes it to make the wrong prediction here.
+
+In Summary, the lesssons that I would want to apply for the future would be to 
+1) Have a very small visualization set (just like the 5 web traffic images) to see where the model could be faltering inspite of high validation accuracy. This could be useful when we are trying to squeeze out some last bits of performance from the model, though we will need to guard against overfitting.
+2) The above may have also helped with pre processing where I worked off the mistaken assumption that grayscale was the way to go and color information was not super important for traffic sign processing
+3) Should consider other computer vision techniques to maybe enhance quality of image so that model does better with text (this is a bit of an assumption on my part though based on the super small set of data of the 5 web traffic images, maybe model does well with text)
+4) Consider multi stage inputs as suggested in the paper by Sermanet and Le Cunn, which will help integrate more lower level features and make the model stronger.
+5) Finally to help with all of the above, get a GPU far in advance so that training is not super tedious working on a CPU (Most of my training runs took hours :(
 
 
-For the second image ... 
+ 
