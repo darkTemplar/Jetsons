@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
+[image1]: ./data/data_analysis/original_label_frequency_distribution.png
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
 [image4]: ./examples/placeholder.png "Traffic Sign 1"
@@ -50,7 +50,9 @@ The code for this step is contained in the third code cell of the IPython notebo
 
 Here is an exploratory visualization of the data set. It is a bar chart showing the distribution of data by various class labels. This clearly shows that the training samples are unevenly distributed among the 43 classes which could mean the NN could be inadequately trained to identify those classes.
 
-![Original label frequency distribution][image1]: ../data/data_analysis/original_label_frequency_distribution.png "Original Label Frequency Visualization"
+To reinforce the point above, We also notice that there are 21 labels which have less than 500 training examples under them (Code to generate that is also in the third cell). 
+
+![Original label frequency distribution][image1]
 
 ###Design and Test a Model Architecture
 
