@@ -101,9 +101,9 @@ My final model consisted of the following layers:
 | Convolution 5x5	    | 1x1 stride, valid padding, outputs 10x10x64  |
 | RELU		|        									|
 | Max pooling	      	| 2x2 stride, same padding, outputs 5x5x64				|
-|	Fully Connected					|		inputs 1600, outputs 100										|
-|	Fully Connected					|		inputs 100, outputs 50										|
-|	Output					|		inputs 50, outputs 43									|
+|	Fully Connected					|		inputs 1600, outputs 400										|
+|	Fully Connected					|		inputs 400, outputs 200										|
+|	Output					|		inputs 200, outputs 43									|
  
 
 
@@ -143,7 +143,7 @@ Here are five German traffic signs that I found on the web:
 ![Keep Right][image5] ![Road Work][image6] ![Bumpy Road][image7] 
 ![No Entry][image8] ![Speed Limit 60][image9]
 
-The first image might be difficult to classify because ...
+All of the images have some degree of diffculty involved in identifying them. Either they have some fuzziness or text overlaying the image or there is other stuff in the image (like the bumpy road sign also asks to reduce speed and the no entry sign is not facing the camera but has a different perspective)
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -153,11 +153,11 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Keep Right      		| Stop sign   									| 
+| Road Work     			| U-turn 										|
+| Bumpy Road					| Yield											|
+| 60 km/h	      		| Bumpy Road					 				|
+| No Entry			| Slippery Road      							|
 
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
