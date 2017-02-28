@@ -76,7 +76,7 @@ Here is an example of a traffic sign image before and after preprocessing.
 
 I was already provided with different data sets for training, validating and testing. So there was no explicit need to split them up.  
 
-My training set had 34799 number of images. My validation set and test set had Y and 12630 number of images.
+My training set had 34799 number of images. My validation set and test set had 4410 and 12630 number of images.
 
 The 4th cell in the notebook also code for augmenting the data set. I took 4 passes through the data set and decided via a simulated coin flip if I were to apply small amounts of translation, rotation and scaling to a given image. Used open cv3 to perform the above operations. We noted earlier that some labels were under represented i.e. had fewer than 500 training examples. For such labels we ignored the coin flip rule and just went ahead and added random peturbations (translation, rotation and scaling) so that we could have more training examples for such labels.
 
@@ -141,8 +141,8 @@ If a well known architecture was chosen:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image5] ![alt text][image6] ![alt text][image7] 
+![alt text][image8] ![alt text][image9]
 
 The first image might be difficult to classify because ...
 
