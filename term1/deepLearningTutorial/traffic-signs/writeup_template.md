@@ -50,7 +50,7 @@ The code for this step is contained in the third code cell of the IPython notebo
 
 Here is an exploratory visualization of the data set. It is a bar chart showing the distribution of data by various class labels. This clearly shows that the training samples are unevenly distributed among the 43 classes which could mean the NN could be inadequately trained to identify those classes.
 
-![alt text][image1]
+![Original label frequency distribution][image1]: ../data/data_analysis/original_label_frequency_distribution.png "Original Label Frequency Visualization"
 
 ###Design and Test a Model Architecture
 
