@@ -19,11 +19,11 @@ The goals / steps of this project are the following:
 [image2]: ./data/data_analysis/original_training_image.png "Original Image"
 [image3]: ./data/data_analysis/preprocessed_image.png "Pre Processed Image"
 [image4]: ./data/data_analysis/augmented_label_frequency_distribution.png "Augmented label frequency distribution"
-[image5]: ./data/web_traffic_images/ "Traffic Sign 1"
-[image6]: ./data/web_traffic_images/ "Traffic Sign 2"
-[image7]: ./data/web_traffic_images/ "Traffic Sign 3"
-[image8]: ./data/web_traffic_images/ "Traffic Sign 4"
-[image9]: ./data/web_traffic_images/ "Traffic Sign 5"
+[image5]: ./data/web_traffic_images/traffic-sign-keep-right.jpeg "Traffic Sign 1"
+[image6]: ./data/web_traffic_images/traffic-sign-roadwork.jpeg "Traffic Sign 2"
+[image7]: ./data/web_traffic_images/traffic-signs-bumpy_road.jpeg "Traffic Sign 3"
+[image8]: ./data/web_traffic_images/traffic-sign-noentry.jpeg "Traffic Sign 4"
+[image9]: ./data/web_traffic_images/traffic-sign-speed-limit.jpeg "Traffic Sign 5"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -140,8 +140,8 @@ Would have liked to try some other things like sending lower level output from t
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image5] ![alt text][image6] ![alt text][image7] 
-![alt text][image8] ![alt text][image9]
+![Keep Right][image5] ![Road Work][image6] ![Bumpy Road][image7] 
+![No Entry][image8] ![Speed Limit 60][image9]
 
 The first image might be difficult to classify because ...
 
