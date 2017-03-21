@@ -46,7 +46,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 ####4. Training data accumulation and collection
 
-Training data was chosen to keep the vehicle driving on the road. I drove for about 10-11 laps on track 1 and mostly tried to keep the car on center lane. To augment the training data, I flipped images gotten from my laps to approximately double the size of my training set.  
+Training data was chosen to keep the vehicle driving on the road. I drove for about 10-11 laps on track 1 and mostly tried to keep the car on center lane. 
 
 ###5.Model Architecture and Training Strategy
 
@@ -73,29 +73,35 @@ My final model consisted of the following layers:
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Input         		| 160x320x3 image   							| 
-| Cropping Layer         		| Crop non-helpful parts of the image   							| 
-| Normalization Layer     	| Normalize intensity and mean center images 	|
+| Cropping         		| Crop non-helpful parts of the image   							| 
+| Normalization     	| Normalize intensity and mean center images 	|
 | Convolution					|												|
 | Max pooling	      	| 2x2 stride, same padding, outputs 14x14x38				|
-| Convolution 5x5	    | 1x1 stride, valid padding, outputs 10x10x64  |
-| RELU		|        									|
+| Convolution	    | 1x1 stride, valid padding, outputs 10x10x64  |
 | Max pooling	      	| 2x2 stride, same padding, outputs 5x5x64				|
-|	Fully Connected					|		inputs 1600, outputs 200										|
+| Convolution	    | 1x1 stride, valid padding, outputs 10x10x64  |
+| Max pooling	      	| 2x2 stride, same padding, outputs 5x5x64				|
+| Flatten	      	| 2x2 stride, same padding, outputs 5x5x64				|
+|	Fully Connected					|		inputs 500, outputs 200										|
+|	Dropout					|		dropout prob. = 50%										|
+|	Fully Connected					|		inputs 200, outputs 100										|
 |	Fully Connected					|		inputs 200, outputs 100										|
 |	Output					|		inputs 1, outputs 1 (steering angle)								|
 
 
 
+The final step was to run the simulator to see how well the car was driving around track one. Despite the low validation and training accuracy, there were a couple of spots where the vehicle fell off the track (esp. at sharp turn after the bridge). Possible causes in my mind were 
+i) My driving during training was not spot on esp. with regards to recovery driving (I had some difficulty in doing that). To see if this was true, I decided to use the sample data provided by Udacity on my existing model for training and validation and finally to have it drive autonomously.
 
+ii) The other solution since the car was failing at a couple of sharp turns was to try and take into account the input of the left and right cameras as well. This would require me to use fit_generator offered by keras instead of fit since I was running into memory issues if I included images from all 3 cameras.
 
+Here are my results from the above approaches.
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+i) The udacity data set had 8036 training images (after flipping that increased to 16072). 
 
 ####3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+To capture good driving behavior, I recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
 ![alt text][image2]
 
