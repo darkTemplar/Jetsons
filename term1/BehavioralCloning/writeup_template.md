@@ -52,15 +52,21 @@ Training data was chosen to keep the vehicle driving on the road. I drove for ab
 
 I started by using the Nvidia self driving CNN (as shown below) used to predict steering angles as my base network. 
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+This was a regression model and the error measure being used was MSE.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a relatively higher mean squared error on the validation set. This implied that the model was overfitting. 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set (0.0047) but a relatively higher mean squared error on the validation set (0.0062). This implied that the model was overfitting. 
 
 To combat that, I modified my model in the following ways:
 
-###i) 
+i) Increase the number of training epochs from 5 to 20 in steps of 5 (so tried 10, 15, 20). 15 seemed to work best given the training data.
+ii) Increase batch size from default of 32 in keras to 64, 128
+iii) Reduced the number of nodes in the first fully connected layer from 1164 to 500
+iv) Removed 2 Convolutional layers
+v) Add max pooling to the existing Convolutional layers and added dropout to the fully connected layer
 
-Final architecture of the model was as follows.
+All of the above steps led to a decrease in validation loss dropping it to around 0.0028 (Corresponding training loss was 0.0017)
+
+Based on the above the final architecture of the model was as follows.
 
 My final model consisted of the following layers:
 
@@ -82,21 +88,10 @@ My final model consisted of the following layers:
 
 
 
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
-
-####2. Final Model Architecture
-
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
-
-![alt text][image1]
 
 ####3. Creation of the Training Set & Training Process
 
