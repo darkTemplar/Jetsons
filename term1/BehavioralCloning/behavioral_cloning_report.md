@@ -57,9 +57,13 @@ In order to gauge how well the model was working, I split my image and steering 
 To combat that, I modified my model in the following ways:
 
 i) Increase the number of training epochs from 5 to 20 in steps of 5 (so tried 10, 15, 20). 15 seemed to work best given the training data.
+
 ii) Increase batch size from default of 32 in keras to 64, 128
+
 iii) Reduced the number of nodes in the first fully connected layer from 1164 to 500
+
 iv) Removed 2 Convolutional layers
+
 v) Add max pooling to the existing Convolutional layers and added dropout to the fully connected layer
 
 All of the above steps led to a decrease in validation loss dropping it to around 0.0058 (Corresponding training loss was 0.0048)
