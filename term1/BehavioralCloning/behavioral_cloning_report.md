@@ -108,11 +108,11 @@ Probable cause in my mind was the fact that my driving during training was not s
 
 This turned out to be quite an eye opener. As the histogram plot of the raw steering angles will reveal, vast majority of the track was probably straight line driving and hence steering angles were near 0.0. This would explain very well the fact that the car was unable to perform sharp turns. To alleviate this problem, I introduced a dropout like keep_probability for 0 steering angles (I experimented with different values and settled on 0.6). So I would only keep about 60% of the near 0 steering angle data points. This was only done during training. While this made the car perform slightly better but it was still driving off sharp turns. To alleviate this problem, I did 2 things
 
-i) I added 4-5 more laps to the data set where I tried driving in recovery mode. This led to driving_log.csv having about 17k lines. In addition I added augmented data points by flippng and blurring images for which steering angles were non-zero. Below are examples of images which were blurred and flipped (using the same crop central camera image displayed in section 4)
+i) I added 4-5 more laps to the data set where I tried driving in recovery mode. This led to driving_log.csv having about 17k lines. In addition I added augmented data points by flippiong and blurring images for which steering angles were non-zero. Below are examples of images which were flipped and blurred (using the same crop central camera image displayed in section 4)
 
-![Blurred][image6]
+![Flipped][image6]
 
-![Flipped][image7]
+![Burred][image7]
 
 This was done to increase data points where car was turning (See fig2.). This led to the data set looking slightly more balanaced. Somewhat counter intuitively, doing this actually worsened my loss on the training and validation data sets and the car still could not complete laps around track 1. I made various changes to the network (adding more layers, experimenting with max pooling and dropouts etc.) but could not get around this problem. This led me to believe that maybe using only the central camera was insufficient for the way i was approaching the problem.
 
