@@ -67,6 +67,32 @@ plt.hist(angles, bins=30)
 plt.title('Sanitized 3 cameras Steering angles histogram')
 plt.show()
 
-
 print("Number of images after sanitization ", len(images))
 
+# generate examples of processing & distortions on images
+# 1. Cropping
+img_file = 'examples/center_camera.jpg'
+img = cv2.imread(img_file)
+cv2.imshow("original", img)
+crop_img = img[50:140, 40:280]
+cv2.imshow("cropped", crop_img)
+cv2.imwrite('examples/crop_center_camera.jpg', crop_img)
+cv2.waitKey(0)
+
+#2.Flipping
+img_file = 'examples/crop_center_camera.jpg'
+img = cv2.imread(img_file)
+cv2.imshow("original", img)
+flipped_img = np.fliplr(img)
+cv2.imshow("flipped", flipped_img)
+cv2.imwrite('examples/flipped_center_camera.jpg', flipped_img)
+cv2.waitKey(0)
+
+# Gaussian Blurring
+img_file = 'examples/crop_center_camera.jpg'
+img = cv2.imread(img_file)
+cv2.imshow("original", img)
+blurred_img = cv2.GaussianBlur(img, (5, 5), 0)
+cv2.imshow("blurred", blurred_img)
+cv2.imwrite('examples/blurred_center_camera.jpg', blurred_img)
+cv2.waitKey(0)
