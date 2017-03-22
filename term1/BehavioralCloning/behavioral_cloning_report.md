@@ -12,9 +12,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]:  ./examples/nvidia_cnn.png "Nvidia CNN"
-[image2]:  ./examples/raw_steering_angles_hist.png "Central Camera Raw Steering Angles Histogram"
-[image3]:  ./examples/raw_3_cameras_steering_angles.png "3 Cameras Raw Steering Angles Histogram"
+[image1]: ./examples/nvidia_cnn.png "Nvidia CNN"
+[image2]: ./examples/raw_steering_angles_hist.png "Central Camera Raw Steering Angles Histogram"
+[image3]: ./examples/raw_3_cameras_steering_angles.png "3 Cameras Raw Steering Angles Histogram"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
