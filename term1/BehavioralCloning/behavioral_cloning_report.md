@@ -56,7 +56,7 @@ Training data was chosen to keep the vehicle driving on the road. I drove for ab
 
 5.Model Architecture and Training Strategy
 
-I started by using the Nvidia self driving CNN (as shown below) used to predict steering angles as my base network. This was implemented using Keras (TensorFlow backend).
+I started by using the Nvidia self driving CNN (as shown below) used to predict steering angles as my base network. This was implemented using Keras (TensorFlow backend). I added ReLu activation to the convolutional layers to introduce non-linearity into the model. 
 
 ![Nvidia CNN][image1]
 
@@ -87,11 +87,14 @@ My final model consisted of the following layers:
 | Input         		  | 160x320x3 image   							| 
 | Cropping         		| Crop outputs 90x240x3   							| 
 | Normalization     	| Normalize intensity and mean center images 	|
-| Convolution					|	2x2 stride, valid padding, outputs 43x118x24											|
+| Convolution 5x5					|	2x2 stride, valid padding, outputs 43x118x24											|
+| RELU         		    |   							|
 | Max pooling	      	| 2x2 stride, valid padding, outputs 21x59x24				|
-| Convolution	        | 2x2 stride, valid padding, outputs 9x28x36  |
+| Convolution	5x5        | 2x2 stride, valid padding, outputs 9x28x36  |
+| RELU         		    |   							|
 | Max pooling	      	| 2x2 stride, valid padding, outputs 4x14x36				|
-| Convolution	        | 1x1 stride, valid padding, outputs 1x12x64  |
+| Convolution	3x3        | 1x1 stride, valid padding, outputs 1x12x64  |
+| RELU         		    |   							|
 | Flatten	      	    | 768 nodes				|
 |	Fully Connected			|	outputs 100										|
 |	Fully Connected			|	outputs 10										|
