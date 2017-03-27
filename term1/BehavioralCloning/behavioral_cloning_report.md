@@ -66,9 +66,9 @@ In order to gauge how well the model was working, I split my image and steering 
 
 To combat that, I modified my model in the following ways:
 
-i) Increase the number of training epochs from 5 to 20 in steps of 5 (so tried 10, 15, 20). 15 seemed to work best given the training data.
+i) Increase the number of training epochs from 5 to 20 in steps of 5 (so tried 10, 15, 20). Used ModelCheckpoint in Keras to save the best model in each case (criteria being minimizing validation loss). Most of the time the best loss was achieved by epoch 10, so final model uses 10 epochs.
 
-ii) Increase batch size from default of 32 in keras to 64, 128
+ii) Increase batch size from default of 32 in keras to 64, 128, 256. Once again ModelCheckpoint indicated no significant validation loss reduction was achieved by increasing batch size from 32.
 
 iii) Reduced the number of nodes in the first fully connected layer from 1164 to 500
 
@@ -130,12 +130,14 @@ As I experimented with the new camera angles, There was still a noticeable skew 
 
 ![3 Cameras Raw Steering Angles][image3]
 
-To help overcome that, I refined my approach to only include right camera angle for left turns and vice-versa with the corresponding steering correction. This was done to make car perform better at sharp turns. Also when i included a camera angle and it's steering correction I used flipping to create a mirror of that image to balance out left handedness of the track. As a further optimization, I added a larger correction (0.2) for sharper turns and softer value (0.1) for smaller turns. This approach paid dividends and I training and validation loss dropped to around 0.0025-0.003. Finally, the car was able to navigate around track1 quite well. It still went off the center a couple of times but recovered well. I did this at various speeds (modifying controller speed value) in drive.py. Due to larger number of images and hence insuuficient memory, I used generators and the fit_generator function from Keras.
+To help overcome that, I refined my approach to only include right camera angle for left turns and vice-versa with the corresponding steering correction. This was done to make car perform better at sharp turns. Also when i included a camera angle and it's steering correction I used flipping to create a mirror of that image to balance out left handedness of the track. As a further optimization, I added a larger correction (0.2) for sharper turns and softer value (0.1) for smaller turns. To further augment training data esp. for non-zero steering angles, even for the central camera images I flipped images and added them to training set. This approach paid dividends and I training and validation loss dropped to around 0.0025-0.003. Finally, the car was able to navigate around track1 quite well. It still went off the center a couple of times but recovered well. I did this at various speeds (modifying controller speed value) in drive.py. Due to larger number of images and hence insuuficient memory, I used generators and the fit_generator function from Keras.
 
 7. Future Improvements
 Make model generalize better.As part of that, we can do the following things:
 i) Add more augmented data as after down sampling straight line driving data, the number of data points can become low. We could also just drive more laps.
 
 ii) Test and run model on track2 and complete a lap there (right now it does not perform well on that). Probably need to drive a few test laps on track2 as well and train on that data to help model generalize better and make sure it's not just memorizing track 1.
+
+iii) Also add a few training laps on different configurations of the simulator (simple graphics etc.) plus augment training data by changing brightness, adding jitter etc to account for running this model on different hardware settings. 
 
 
