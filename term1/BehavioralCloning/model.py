@@ -1,13 +1,13 @@
 import csv
 import cv2
 import numpy as np
-from sklearn.utils import shuffle
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Lambda, Convolution2D, MaxPooling2D, Dropout
 from keras.layers.convolutional import Cropping2D
+from keras.callbacks import ModelCheckpoint
 
 
-with open('data/driving_log.csv') as csvfile:
+with open('udacity_data/data/driving_log.csv') as csvfile:
     reader = csv.reader(csvfile)
     lines = [line for line in reader]
 
@@ -26,9 +26,10 @@ steering_angles = []
 def data_generator(samples, batch_size=32, training=True):
     soft_correction, hard_correction = 0.1, 0.2
     num_samples = len(samples)
-    images, angles = np.zeros((batch_size*CAMERA_ANGLES, 160, 320, 3)), np.zeros((batch_size*CAMERA_ANGLES, 1))
+    step_size = CAMERA_ANGLES + 1
+    images, angles = np.zeros((batch_size*step_size, 160, 320, 3)), np.zeros((batch_size*step_size, 1))
     while 1: # Loop forever so the generator never terminates
-        for i in range(0, batch_size, CAMERA_ANGLES):
+        for i in range(0, batch_size, step_size):
             idx = np.random.randint(0, num_samples)
             sample = samples[idx]
             steering_angle = float(sample[3])
@@ -41,7 +42,7 @@ def data_generator(samples, batch_size=32, training=True):
             for camera in range(CAMERA_ANGLES):
                 img_source_path = sample[camera]
                 img_filename = img_source_path.split('/')[-1]
-                img_current_path = 'data/IMG/' + img_filename
+                img_current_path = 'udacity_data/data/IMG/' + img_filename
                 img = cv2.imread(img_current_path)
                 if camera > 0:
                     # if right turn keep right camera image and steering angle adjustment
@@ -50,7 +51,7 @@ def data_generator(samples, batch_size=32, training=True):
                             correction = hard_correction if steering_angle > 0.2 else soft_correction
                             images[i+camera] = img
                             angles[i+camera] = steering_angle + correction
-                            # since we won't be attaching left camera image, we flip the right one and use that instead
+                            # since we won't be attaching right camera image, we flip the left one and use that instead
                             images[i+camera+1] = np.fliplr(img)
                             angles[i+camera+1] = -1. * (steering_angle + correction)
 
@@ -64,8 +65,12 @@ def data_generator(samples, batch_size=32, training=True):
                             angles[i+camera-1] = -1. * (steering_angle - correction)
 
                 else:
-                    images[i+camera] = img
-                    angles[i+camera] = steering_angle
+                    images[i] = img
+                    angles[i] = steering_angle
+                    # Augment training data further by flipping images which have a non-zero steering angle
+                    if training and steering_angle != 0.0:
+                        images[i+step_size-1] = np.fliplr(img)
+                        angles[i+step_size-1] = -1. * steering_angle
         yield images, angles
 
 
@@ -82,18 +87,21 @@ model = Sequential()
 # cropping layer
 model.add(Cropping2D(cropping=((50, 20), (40, 40)), input_shape=(160, 320, 3)))
 model.add(Lambda(lambda x: (x / 255.0) - 0.5))
-model.add(Convolution2D(24, 5, 5, subsample=(2, 2)))
+model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Convolution2D(36, 5, 5, subsample=(2, 2)))
+model.add(Convolution2D(48, 5, 5, subsample=(2, 2), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Convolution2D(64, 3, 3, subsample=(1, 1)))
+model.add(Convolution2D(64, 3, 3, subsample=(1, 1), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(100))
 model.add(Dense(10))
 model.add(Dense(1))
 
 print("Compile and run model")
+filepath = "model2.h5"
+checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
 model.compile(loss='mse', optimizer='adam')
 model.fit_generator(train_generator, steps_per_epoch=len(train_samples)//BATCH_SIZE,
-                    validation_data=validation_generator, validation_steps=len(validation_samples)//BATCH_SIZE, epochs=10)
-model.save('model.h5')
+                    validation_data=validation_generator, validation_steps=len(validation_samples)//BATCH_SIZE, epochs=10, callbacks=[checkpoint])
+#model.save('model2.h5')
