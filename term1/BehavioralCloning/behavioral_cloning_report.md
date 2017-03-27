@@ -132,6 +132,8 @@ As I experimented with the new camera angles, There was still a noticeable skew 
 
 To help overcome that, I refined my approach to only include right camera angle for left turns and vice-versa with the corresponding steering correction. This was done to make car perform better at sharp turns. Also when i included a camera angle and it's steering correction I used flipping to create a mirror of that image to balance out left handedness of the track. As a further optimization, I added a larger correction (0.2) for sharper turns and softer value (0.1) for smaller turns. To further augment training data esp. for non-zero steering angles, even for the central camera images I flipped images and added them to training set. This approach paid dividends and I training and validation loss dropped to around 0.0025-0.003. Finally, the car was able to navigate around track1 quite well. It still went off the center a couple of times but recovered well. I did this at various speeds (modifying controller speed value) in drive.py. Due to larger number of images and hence insuuficient memory, I used generators and the fit_generator function from Keras.
 
+Finally, I trained and validated my model with my own dataset as well as the dataset provided by Udacity. The model was able to keep the car on track in the simulator in both cases.
+
 7. Future Improvements
 Make model generalize better.As part of that, we can do the following things:
 i) Add more augmented data as after down sampling straight line driving data, the number of data points can become low. We could also just drive more laps.
