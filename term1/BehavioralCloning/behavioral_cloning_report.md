@@ -23,6 +23,7 @@ The goals / steps of this project are the following:
 [image7]: ./examples/blurred_center_camera.jpg "Blurred Image"
 [image8]: ./examples/left_camera.jpg "Left camera Image"
 [image9]: ./examples/right_camera.jpg "Right camera Image"
+[image10]: ./examples/balanced_3_camera_steering_angles.png "Balanced 3 Cameras Steering Angles Histogram"
 
 
 ---
@@ -130,7 +131,11 @@ As I experimented with the new camera angles, There was still a noticeable skew 
 
 ![3 Cameras Raw Steering Angles][image3]
 
-To help overcome that, I refined my approach to only include right camera angle for left turns and vice-versa with the corresponding steering correction. This was done to make car perform better at sharp turns. Also when i included a camera angle and it's steering correction I used flipping to create a mirror of that image to balance out left handedness of the track. As a further optimization, I added a larger correction (0.2) for sharper turns and softer value (0.1) for smaller turns. To further augment training data esp. for non-zero steering angles, even for the central camera images I flipped images and added them to training set. This approach paid dividends and I training and validation loss dropped to around 0.0025-0.003. Finally, the car was able to navigate around track1 quite well. It still went off the center a couple of times but recovered well. I did this at various speeds (modifying controller speed value) in drive.py. Due to larger number of images and hence insuuficient memory, I used generators and the fit_generator function from Keras.
+To help overcome that, I refined my approach to only include right camera angle for left turns and vice-versa with the corresponding steering correction. This was done to make car perform better at sharp turns. Also when i included a camera angle and it's steering correction I used flipping to create a mirror of that image to balance out left handedness of the track. As a further optimization, I added a larger correction (0.2) for sharper turns and softer value (0.1) for smaller turns. To further augment training data esp. for non-zero steering angles, even for the central camera images I flipped images and added them to training set. So the above approach combined with the random reduction of 0 steering angle images using keep_probability (explained above) led to a much more balanced dataset (with balanced right and left steering angles and also reduced number of zero steering angles). This data set is visualized below and we can notice this has a far better distribution of steering angles compared to figure above.
+
+![Balanced 3 Camera Steering Angles][image10]
+
+This approach paid dividends and I training and validation loss dropped to around 0.0025-0.003. Finally, the car was able to navigate around track1 quite well. It still went off the center a couple of times but recovered well. I did this at various speeds (modifying controller speed value) in drive.py. Due to larger number of images and hence insuuficient memory, I used generators and the fit_generator function from Keras.
 
 Finally, I trained and validated my model with my own dataset as well as the dataset provided by Udacity. The model was able to keep the car on track in the simulator in both cases.
 
