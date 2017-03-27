@@ -73,7 +73,7 @@ plt.title('Raw 3 cameras Steering angles histogram')
 plt.show()
 # plot sanitized steering angles histogram
 plt.hist(angles, bins=40)
-plt.title('Sanitized 3 cameras Steering angles histogram')
+plt.title('Balanced 3 cameras Steering angles histogram')
 plt.show()
 
 print("Number of images after sanitization ", len(images))
