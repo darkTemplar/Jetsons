@@ -71,11 +71,11 @@ i) Increase the number of training epochs from 5 to 20 in steps of 5 (so tried 1
 
 ii) Increase batch size from default of 32 in keras to 64, 128, 256. Once again ModelCheckpoint indicated no significant validation loss reduction was achieved by increasing batch size from 32.
 
-iii) Reduced the number of nodes in the first fully connected layer from 1164 to 500
+iii) Remove one of the fully connected layers (the one with 50 noedes, as can be seen in the NVIDIA CNN architecture above).
 
 iv) Removed 2 Convolutional layers
 
-v) Add max pooling to the existing Convolutional layers and added dropout to the fully connected layer
+v) Add max pooling to the existing Convolutional layers and added dropout to the fully connected layer. The dropout on fully connected layers did not increase validation accuracy so ended up removing it. Also ended up removing max pooling on the last convolutional layer.
 
 All of the above steps led to a decrease in validation loss dropping it to around 0.0058 (Corresponding training loss was 0.0048)
 
