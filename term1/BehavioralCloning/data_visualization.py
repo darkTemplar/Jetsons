@@ -80,7 +80,7 @@ print("Number of images after sanitization ", len(images))
 
 # generate examples of processing & distortions on images
 # 1. Cropping
-"""img_file = 'examples/center_camera.jpg'
+img_file = 'examples/center_camera.jpg'
 img = cv2.imread(img_file)
 cv2.imshow("original", img)
 crop_img = img[50:140, 40:280]
@@ -116,4 +116,6 @@ zitter[:,:,1] = noise
 noise_added = cv2.add(img, zitter)
 combined = np.vstack((img[:h/2,:,:], noise_added[h/2:,:,:]))
 
-cv2.imshow(combined)"""
+cv2.imshow(combined)
+
+cv2.cvtColor(combined, cv2.COLOR_RGB2GRAY)
