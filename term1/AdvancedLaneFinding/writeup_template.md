@@ -101,5 +101,16 @@ Here's a [link to my video result](./project_output.mp4)
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.
+
+The main problem with the project was robustly identifying the lane lines from frame to frame. As detailed above, the processing pipeline consisted mainly of the following steps:
+i) `Calibrating camera and undistorting image` - Faced no major problems on this step and got good results quickly
+
+ii) `Warping the image to get a bird's eye perspective` - This step was faced with some problems when I tried to automate the source and destination points using edge detection and hence had to resort to manual inspection and detection. This approach however will not scale very well to images/videos with different conditions and hence this needs to switch back to an improved approach which is automated.
+
+iii) `binary thresholding` - Did not face much problems with this step either apart from some minor experiments to get the thresholds for the color and gradient thresholding. Used the test images provided and the params generalized well to the project video.
+
+iv) `lane line detection + radius of curvature` - This was the step that I spent the most time on. While I was able to detect lane lines fairly accurately in the test images after tuning params for gradient and color thresholding as well as setting minimum pixels and margins for the sliding window and fast window search (as detailed in Section 4). However when running the video, I faced problems with frames where the color of the road changed (image below), when car passed through a heavily shaded area and when car suddenly passed by in a nearby lane. Since these cases were not represented well in the test_images, the params did not generalize too well to these causing lane lines to jump around or becoming too wide. So as a first step, I decided to generate additional test images from the actual video itself, using frames where the lane lines were erratic. For this purpose I used the function `extract_frames` on line 511. Now I ran my pipeline over these images and identified problems with the parameters. I realized that I needed to add constraints to discard lane lines and radius of curvature measurements which were erratic. I added a sanity check to satisfy the above and if it failed we just relied on previous successful measurements to draw lane lines and calculate radius of curvature. 
+
+This approach worked pretty well for the project video and I was able to get pretty smooth output.
 
